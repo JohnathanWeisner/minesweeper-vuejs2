@@ -27,6 +27,14 @@ class Game extends EventSystem {
             this.board.select(row, col);
         }
     }
+
+    render() {
+        console.log(game.board.cells.map((row) => {
+            return row.map((cell) => {
+                return !cell.visible ? '[ ]' : (cell.mine ? '[X]' : '[' + cell.nearCount + ']');
+            });
+        }));
+    }
 }
 
 let game = new Game();
@@ -43,9 +51,4 @@ game.onCellSelect({row: -1, col: 2});
 game.onCellSelect({row: 1, col: 2});
 game.onCellSelect({row: 1, col: 3});
 game.onCellSelect({row: 1, col: 4});
-
-console.log(game.board.cells.map((row) => {
-    return row.map((cell) => {
-        return !cell.visible ? '[ ]' : (cell.mine ? '[X]' : '[' + cell.nearCount + ']');
-    });
-}));
+game.render();
