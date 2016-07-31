@@ -1,7 +1,7 @@
 const Cell = require('./Cell.js');
 const opts = {height: 9, width: 9, mines: 10};
 
-function _interateMatrix(rows, columns, cb) {
+function _iterateMatrix(rows, columns, cb) {
     for (var row = 0; row < rows; row++) {
         for (var col = 0; col < columns; col++) {
             cb(row, col);
@@ -53,7 +53,7 @@ class Board {
     }
 
     eachCell(cb) {
-        _interateMatrix(this.height, this.width, (row, col) => {
+        _iterateMatrix(this.height, this.width, (row, col) => {
             cb(this.cells[row][col], row, col);
         });
     }
@@ -84,7 +84,7 @@ class Board {
         var isMineChecker = _generateRandomMineCoords(height, width, mines);
         var cells = [];
 
-        _interateMatrix(height, width, (row, col) => {
+        _iterateMatrix(height, width, (row, col) => {
             var isMine = !!(isMineChecker[row] && isMineChecker[row][col]);
 
             if (!cells[row]) {
