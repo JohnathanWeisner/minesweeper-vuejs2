@@ -1,7 +1,8 @@
 class Cell {
-    constructor({bomb = false, near = 0} = {}) {
-        this.bomb = bomb;
-        this.near = near;
+    constructor({mine = false, nearCount = 0, visible = false} = {}) {
+        this.mine = mine;
+        this.nearCount = nearCount;
+        this.visible = visible;
     }
 }
 
