@@ -97,16 +97,15 @@ class Board {
     }
 
     revealAround(row, col) {
-        if (this.inBounds(row, col)) {
-            let cell = this.cells[row][col];
+        if (!this.inBounds(row, col)) return;
+        let cell = this.cells[row][col];
 
-            if ((cell.nearCount === 0 || cell.nearCount === 1) && !cell.visible && !cell.mine) {
-                cell.visible = true;
-                if (cell.nearCount === 0) {
-                    this.eachCellAround(row, col, (cell, row, col) => {
-                        this.revealAround(row, col);
-                    });
-                }
+        if ((cell.nearCount === 0 || cell.nearCount === 1) && !cell.visible && !cell.mine) {
+            cell.visible = true;
+            if (cell.nearCount === 0) {
+                this.eachCellAround(row, col, (cell, row, col) => {
+                    this.revealAround(row, col);
+                });
             }
         }
     }
@@ -119,6 +118,11 @@ class Board {
                 this.cells[row][col].visible = true;
             }
         }
+    }
+
+    toggleFlag(row, col) {
+        if (!this.inBounds(row, col)) return;
+        this.cell[row][col].flagged = !this.cell[row][col].flagged;
     }
 }
 
