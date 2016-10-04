@@ -51,14 +51,6 @@ class Game extends EventSystem {
             });
         });
     }
-
-    render() {
-        console.log(game.board.cells.map((row) => {
-            return row.map((cell) => {
-                return !cell.visible ? '[ ]' : (cell.mine ? '[X]' : '[' + cell.nearCount + ']');
-            });
-        }));
-    }
 }
 
 window.Game = Game;
