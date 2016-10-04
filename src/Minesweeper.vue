@@ -4,7 +4,12 @@
 <ol id="board">
     <li class="row" v-for="(row, rindex) in board">
         <div class="cell-container" v-for="(cell, cindex) in row">
-            <div class="cell" v-bind:data-row="rindex" v-bind:data-col="cindex" v-on:click="clickCell" v-on:contextmenu="flag">
+            <div class="cell"
+                v-bind:data-row="rindex"
+                v-bind:data-col="cindex"
+                v-on:click="clickCell"
+                v-on:contextmenu="flag">
+
                 <span v-if="cell.visible">
                     <span v-if="cell.nearCount == 0">&nbsp;</span>
                     <span v-else>{{cell.nearCount}}</span>
