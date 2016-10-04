@@ -3,6 +3,7 @@ const EventSystem = require('./EventSystem.js')
 const START = 'start';
 const BOUNDS_ERROR = 'bounds_error';
 const GAME_OVER = 'game_over';
+const GAME_WON = 'game_won';
 
 class Game extends EventSystem {
     constructor() {
@@ -11,12 +12,18 @@ class Game extends EventSystem {
         this.state = START;
     }
 
-    onCellSelect({row, col}) {
-        if (this.state === GAME_OVER) return;
+    cellReachable({row, col}) {
+        if ([GAME_OVER, GAME_WON].indexOf(this.state) > -1) return false;
         if (!this.board.inBounds(row, col)) {
             this.trigger(BOUNDS_ERROR, row, col);
-            return;
+            return false;
         }
+        return true;
+    }
+
+    onCellSelect({row, col}) {
+        if (!this.cellReachable({row: row, col: col})) return;
+
         let cellSelected = this.board.cells[row][col];
         if (cellSelected.mine) {
             this.board.select(row, col);
@@ -25,7 +32,24 @@ class Game extends EventSystem {
             return;
         } else {
             this.board.select(row, col);
+            if (this.isWon()) {
+                this.state = GAME_WON;
+                this.trigger(GAME_WON);
+            }
         }
+    }
+
+    onCellFlag({row, col}) {
+        if (!this.cellReachable({row: row, col: col})) return;
+        this.board.toggleFlag(row, col);
+    }
+
+    isWon() {
+        return this.board.cells.every((row) => {
+            return row.every((cell) => {
+                return cell.visible || cell.mine;
+            });
+        });
     }
 
     render() {
@@ -37,18 +61,12 @@ class Game extends EventSystem {
     }
 }
 
-let game = new Game();
+window.Game = Game;
 
-game.bind(BOUNDS_ERROR, (row, col) => {
-    console.log('Error out of bounds', row, col);
-});
+// window.game.bind(BOUNDS_ERROR, (row, col) => {
+//     console.log('Error out of bounds', row, col);
+// });
 
-game.bind(GAME_OVER, (row, col) => {
-    console.log('The game is over.');
-});
-
-game.onCellSelect({row: -1, col: 2});
-game.onCellSelect({row: 1, col: 2});
-game.onCellSelect({row: 1, col: 3});
-game.onCellSelect({row: 1, col: 4});
-game.render();
+// window.game.bind(GAME_OVER, (row, col) => {
+//     console.log('The game is over.');
+// });
