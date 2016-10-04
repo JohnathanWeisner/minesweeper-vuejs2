@@ -1,5 +1,9 @@
 const Cell = require('./Cell.js');
-const opts = {height: 9, width: 9, mines: 10};
+const opts = {
+    height: 9,
+    width: 9,
+    mines: 10
+};
 
 function _iterateMatrix(rows, columns, cb) {
     for (var row = 0; row < rows; row++) {
@@ -49,7 +53,10 @@ class Board {
     }
 
     inBounds(row, col) {
-        return row < this.height && row >= 0 && col < this.width && col >= 0;
+        return row < this.height &&
+            row >= 0 &&
+            col < this.width &&
+            col >= 0;
     }
 
     eachCell(cb) {
@@ -100,29 +107,41 @@ class Board {
         if (!this.inBounds(row, col)) return;
         let cell = this.cells[row][col];
 
-        if ((cell.nearCount === 0 || cell.nearCount === 1) && !cell.visible && !cell.mine) {
+        if (!cell.visible &&
+            !cell.mine) {
+
             cell.visible = true;
             if (cell.nearCount === 0) {
-                this.eachCellAround(row, col, (cell, row, col) => {
-                    this.revealAround(row, col);
+                [
+                    [row - 1, col - 1],
+                    [row - 1, col],
+                    [row - 1, col + 1],
+                    [row, col - 1],
+                    [row, col + 1],
+                    [row + 1, col - 1],
+                    [row + 1, col],
+                    [row + 1, col + 1]
+                ].forEach((coord) => {
+                    this.revealAround(coord[0], coord[1]);
                 });
             }
         }
     }
 
     select(row, col) {
-        if (this.inBounds(row, col)) {
-            if (this.cells[row][col].nearCount === 0) {
-                this.revealAround(row, col);
-            } else {
-                this.cells[row][col].visible = true;
-            }
+        if (!this.inBounds(row, col)) return;
+
+        if (this.cells[row][col].nearCount === 0) {
+            this.revealAround(row, col);
+        } else {
+            this.cells[row][col].visible = true;
         }
     }
 
     toggleFlag(row, col) {
         if (!this.inBounds(row, col)) return;
-        this.cell[row][col].flagged = !this.cell[row][col].flagged;
+
+        this.cells[row][col].flagged = !this.cells[row][col].flagged;
     }
 }
 
