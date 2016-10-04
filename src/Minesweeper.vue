@@ -1,8 +1,15 @@
 <template>
 <div>
-<h1>{{state}}</h1>
+<h1>
+    {{game.state}}
+    <button v-if="game.state != 'start'"
+        v-on:click="restart">
+
+        Restart
+    </button>
+</h1>
 <ol id="board">
-    <li class="row" v-for="(row, rindex) in board">
+    <li class="row" v-for="(row, rindex) in game.board.cells">
         <div class="cell-container" v-for="(cell, cindex) in row">
             <div class="cell"
                 v-bind:data-row="rindex"
@@ -12,7 +19,8 @@
 
                 <span v-if="cell.visible">
                     <span v-if="cell.nearCount == 0">&nbsp;</span>
-                    <span v-else>{{cell.nearCount}}</span>
+                    <span v-if="cell.mine == true">@</span>
+                    <span v-if="showCell(cell)">{{cell.nearCount}}</span>
                 </span>
                 <span v-else>
                     <span v-if="cell.flagged">F</span>
@@ -30,7 +38,7 @@
 const Game = require('./Game.js');
 const game = new Game();
 const getRowCol = (target) => {
-let data = target.dataset;
+    let data = target.dataset;
 
     return {
         row: parseInt(data.row),
@@ -40,23 +48,30 @@ let data = target.dataset;
 
 export default {
     data: {
-        state: game.state,
-        board: game.board.cells
+        game: game
     },
+
     methods: {
+        showCell: (cell) => {
+            return cell.mine === false && cell.nearCount != 0;
+        },
         clickCell: function (e) {
             e.preventDefault();
 
             game.onCellSelect(getRowCol(e.target));
-            this.board = game.board.cells;
-            this.state = game.state;
+            this.game = game;
         },
         flag: function (e) {
             e.preventDefault();
 
             game.onCellFlag(getRowCol(e.target));
-            this.board = game.board.cells;
-            this.state = game.state;
+            this.game = game;
+        },
+        restart: function (e) {
+            e.preventDefault();
+
+            game.onRestart();
+            this.game = game;
         }
     }
 };

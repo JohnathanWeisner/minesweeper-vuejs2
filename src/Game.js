@@ -26,7 +26,7 @@ class Game extends EventSystem {
 
         let cellSelected = this.board.cells[row][col];
         if (cellSelected.mine) {
-            this.board.select(row, col);
+            this.board.revealMines();
             this.state = GAME_OVER;
             this.trigger(GAME_OVER);
             return;
@@ -42,6 +42,11 @@ class Game extends EventSystem {
     onCellFlag({row, col}) {
         if (!this.cellReachable({row: row, col: col})) return;
         this.board.toggleFlag(row, col);
+    }
+
+    onRestart() {
+        this.board = new Board();
+        this.state = START;
     }
 
     isWon() {

@@ -128,9 +128,16 @@ class Board {
         }
     }
 
+    revealMines() {
+        this.eachCell((cell) => {
+            if (cell.mine) {
+                cell.visible = true;
+            }
+        });
+    }
+
     select(row, col) {
         if (!this.inBounds(row, col)) return;
-
         if (this.cells[row][col].nearCount === 0) {
             this.revealAround(row, col);
         } else {
