@@ -53,12 +53,4 @@ class Game extends EventSystem {
     }
 }
 
-window.Game = Game;
-
-// window.game.bind(BOUNDS_ERROR, (row, col) => {
-//     console.log('Error out of bounds', row, col);
-// });
-
-// window.game.bind(GAME_OVER, (row, col) => {
-//     console.log('The game is over.');
-// });
+module.exports = Game;
