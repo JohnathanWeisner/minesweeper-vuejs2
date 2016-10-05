@@ -8,7 +8,7 @@ const GAME_WON = 'game_won';
 class Game extends EventSystem {
     constructor() {
         super();
-        this.board = new Board();
+        this.board = new Board({height: 9, width: 9, mines: 10});
         this.state = START;
     }
 

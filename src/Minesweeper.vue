@@ -9,7 +9,7 @@
     </button>
 </h1>
 <ol id="board">
-    <li class="row" v-for="(row, rindex) in game.board.cells">
+    <li class="row" v-bind:width="rowWidth(game.board.cells.length)" v-for="(row, rindex) in game.board.cells">
         <div class="cell-container" v-for="(cell, cindex) in row">
             <div v-bind:class="classes(cell)"
                 v-bind:data-row="rindex"
@@ -59,6 +59,9 @@ export default {
                 return 'cell visible';
             }
         },
+        rowWidth: (boardWidth) => {
+            return boardWidth * 27;
+        },
         showCell: (cell) => {
             return cell.mine === false && cell.nearCount != 0;
         },
@@ -89,7 +92,6 @@ export default {
 
 .row {
     height: 27px;
-    width: 243px;
 }
 
 .cell {
