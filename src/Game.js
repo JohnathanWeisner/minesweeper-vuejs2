@@ -50,6 +50,7 @@ class Game extends EventSystem {
         }
         let cellSelected = this.board.cells[row][col];
 
+        if (cellSelected.flagged) return;
         if (cellSelected.mine) {
             this.timer.pause();
             this.board.revealMines();
@@ -67,6 +68,8 @@ class Game extends EventSystem {
 
     onCellFlag({row, col}) {
         if (!this.cellReachable({row: row, col: col})) return;
+        let cellSelected = this.board.cells[row][col];
+        if (cellSelected.visible) return;
         this.board.toggleFlag(row, col);
     }
 
