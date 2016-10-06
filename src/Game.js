@@ -1,15 +1,36 @@
 const Board = require('./Board.js')
 const EventSystem = require('./EventSystem.js')
-const START = 'start';
+const Timer = require('./Timer.js');
+const NEW = 'new';
+const RUNNING = 'running';
 const BOUNDS_ERROR = 'bounds_error';
 const GAME_OVER = 'game_over';
 const GAME_WON = 'game_won';
 
+function _getBoardForSkill(skill) {
+    const skillLevels = {
+        beginner: {height: 9, width: 9, mines: 10},
+        intermediate: {height: 16, width: 16, mines: 40},
+        expert: {height: 16, width: 30, mines: 99}
+    };
+
+    return skillLevels[skill];
+}
+
 class Game extends EventSystem {
-    constructor() {
+    constructor({skill = 'beginner', height = 0, width = 0, mines = 0} = {}) {
         super();
-        this.board = new Board({height: 9, width: 9, mines: 10});
-        this.state = START;
+        this.boardDefaults = _getBoardForSkill(skill);
+        if (!this.boardDefaults) {
+            this.boardDefaults = {
+                height,
+                width,
+                mines
+            };
+        }
+        this.board = new Board(this.boardDefaults);
+        this.timer = new Timer;
+        this.state = NEW;
     }
 
     cellReachable({row, col}) {
@@ -23,16 +44,21 @@ class Game extends EventSystem {
 
     onCellSelect({row, col}) {
         if (!this.cellReachable({row: row, col: col})) return;
-
+        if (this.state === NEW) {
+            this.state = RUNNING;
+            this.timer.start();
+        }
         let cellSelected = this.board.cells[row][col];
+
         if (cellSelected.mine) {
+            this.timer.pause();
             this.board.revealMines();
             this.state = GAME_OVER;
             this.trigger(GAME_OVER);
-            return;
         } else {
             this.board.select(row, col);
             if (this.isWon()) {
+                this.timer.pause();
                 this.state = GAME_WON;
                 this.trigger(GAME_WON);
             }
@@ -45,8 +71,9 @@ class Game extends EventSystem {
     }
 
     onRestart() {
-        this.board = new Board();
-        this.state = START;
+        this.board = new Board(this.boardDefaults);
+        this.timer = new Timer;
+        this.state = NEW;
     }
 
     isWon() {
