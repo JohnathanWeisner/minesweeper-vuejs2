@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="minesweeper">
 <h1>
     {{game.state}}
     <button v-if="game.state != 'new'"
@@ -104,6 +104,9 @@ export default {
 </script>
 
 <style lang="sass">
+.minesweeper {
+    font-family: 'Dosis', sans-serif;
+}
 .row {
     height: 27px;
 }
