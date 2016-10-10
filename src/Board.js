@@ -112,17 +112,8 @@ class Board {
 
             cell.visible = true;
             if (cell.nearCount === 0) {
-                [
-                    [row - 1, col - 1],
-                    [row - 1, col],
-                    [row - 1, col + 1],
-                    [row, col - 1],
-                    [row, col + 1],
-                    [row + 1, col - 1],
-                    [row + 1, col],
-                    [row + 1, col + 1]
-                ].forEach((coord) => {
-                    this.revealAround(coord[0], coord[1]);
+                this.eachCellAround(row, col, (outerCell, outerRow, outerCol) => {
+                    this.revealAround(outerRow, outerCol);
                 });
             }
         }
