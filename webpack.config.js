@@ -7,12 +7,12 @@ module.exports = {
         filename: 'minesweeper.js'
     },
     plugins: [
-        // new webpack.optimize.UglifyJsPlugin({
-        //     compress: {
-        //         warnings: false
-        //     },
-        //     mangle: true
-        // })
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            },
+            mangle: true
+        })
     ],
     resolve: {
     alias: {vue: 'vue/dist/vue.js'}
