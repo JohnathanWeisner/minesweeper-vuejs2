@@ -4,11 +4,16 @@ const START = 'start';
 const BOUNDS_ERROR = 'bounds_error';
 const GAME_OVER = 'game_over';
 const GAME_WON = 'game_won';
+const opts = {
+    height: 9,
+    width: 9,
+    mines: 10
+};
 
 class Game extends EventSystem {
-    constructor() {
+    constructor({height = opts.height, width = opts.width, mines = opts.mines}) {
         super();
-        this.board = new Board({height: 9, width: 9, mines: 10});
+        this.board = new Board({height, width, mines});
         this.state = START;
     }
 
