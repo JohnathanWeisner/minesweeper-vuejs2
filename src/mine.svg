@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <pattern id="pattern-0" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse" viewBox="0 0 100 100">
+      <path d="M 0 0 L 50 0 L 50 100 L 0 100 Z" style="fill: black;"/>
+    </pattern>
+    <radialGradient id="gradient-4" gradientUnits="userSpaceOnUse" cx="232.253" cy="145.425" r="230.406" gradientTransform="matrix(-1.109953, 0.869873, -0.858887, -1.095934, 713.361636, 319.892369)" spreadMethod="reflect">
+      <stop offset="0" style="stop-color: rgb(213, 247, 99);"/>
+      <stop offset="1" style="stop-color: #758d29"/>
+    </radialGradient>
+    <radialGradient id="gradient-6" gradientUnits="userSpaceOnUse" cx="428.833" cy="1365.361" r="236.877" gradientTransform="matrix(-1.31504, -1.52562, 1.022573, -0.881438, -530.843715, 2184.118753)">
+      <stop offset="0" style="stop-color: rgba(121, 152, 72, 1)"/>
+      <stop offset="1" style="stop-color: rgb(200, 236, 143);"/>
+    </radialGradient>
+    <radialGradient id="gradient-7" gradientUnits="userSpaceOnUse" cx="468.823" cy="214.949" r="12.559" gradientTransform="matrix(0.707112, -0.7071, 0.999984, 0.999999, -81.780034, 331.988029)">
+      <stop offset="0" style="stop-color: rgb(234, 156, 156);"/>
+      <stop offset="1" style="stop-color: rgba(143, 0, 0, 1)"/>
+    </radialGradient>
+    <radialGradient id="gradient-9" gradientUnits="userSpaceOnUse" cx="247.074" cy="251.088" r="100.428" gradientTransform="matrix(0.399415, -0.220779, 0.388168, 0.702244, 50.924397, 129.311889)">
+      <stop offset="0" style="stop-color: rgba(216, 216, 216, 1)"/>
+      <stop offset="1" style="stop-color: rgb(175, 173, 173);"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="255.313" cy="256.279" rx="230.406" ry="230.406" style="fill: url(#gradient-4);"/>
+  <path d="M 249.238 254.881 m -236.877 0 a 236.877 236.877 0 1 0 473.754 0 a 236.877 236.877 0 1 0 -473.754 0 Z M 249.238 254.881 m -215.547 0 a 215.547 215.547 0 0 1 431.094 0 a 215.547 215.547 0 0 1 -431.094 0 Z" style="fill: url(#gradient-6);" bx:shape="ring 249.238 254.881 215.547 215.547 236.877 236.877 1@8f89d802"/>
+  <ellipse transform="matrix(1, 0, 0, 1.000001, -142.221313, -25.327995)" cx="469.506" cy="219.296" rx="12.559" ry="12.559" style="fill: url(#gradient-7);"/>
+  <path d="M 250.266 150.787 L 275.093 222.211 L 350.694 223.752 L 290.437 269.435 L 312.334 341.812 L 250.266 298.621 L 188.198 341.812 L 210.095 269.435 L 149.838 223.752 L 225.439 222.211 Z" style="fill: url(#gradient-9);" bx:shape="star 250.266 256.383 105.596 105.596 0.4 5 1@37ec0839"/>
+</svg>

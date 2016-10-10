@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 public/minesweeper.js
+public/*.svg
 # Logs
 logs
 *.log

@@ -1,31 +1,30 @@
 <template>
-<div>
+<div class="minesweeper">
 <h1>
     {{game.state}}
-    <button v-if="game.state != 'start'"
+    <button v-if="game.state != 'new'"
         v-on:click="restart">
 
         Restart
     </button>
 </h1>
-<ol id="board">
+<h3>{{getTime(game.timer.ms)}}</h3>
+<ol id="board" class="unselectable">
     <li class="row" v-bind:width="rowWidth(game.board.cells.length)" v-for="(row, rindex) in game.board.cells">
-        <div class="cell-container" v-for="(cell, cindex) in row">
-            <div v-bind:class="classes(cell)"
-                v-bind:data-row="rindex"
-                v-bind:data-col="cindex"
-                v-on:click="clickCell"
-                v-on:contextmenu="flag">
+        <div v-for="(cell, cindex) in row"
+            v-bind:class="classes(cell)"
+            v-bind:data-row="rindex"
+            v-bind:data-col="cindex"
+            v-on:click="clickCell"
+            v-on:contextmenu="flag">
 
-                <span v-if="cell.visible">
-                    <span v-if="cell.nearCount == 0">&nbsp;</span>
-                    <span v-if="cell.mine == true">@</span>
-                    <span v-if="showCell(cell)">{{cell.nearCount}}</span>
-                </span>
-                <span v-else>
-                    <span>&nbsp;</span>
-                </span>
-            </div>
+            <span v-if="cell.visible" class="cell-outer unselectable">
+                <span v-if="isEmptyOrMine(cell)" class="unselectable">&nbsp;</span>
+                <span v-if="showCell(cell)" class="unselectable">{{cell.nearCount}}</span>
+            </span>
+            <span v-else class="cell-outer unselectable">
+                <span>&nbsp;</span>
+            </span>
         </div>
     </li>
 </ol>
@@ -35,7 +34,7 @@
 
 <script>
 const Game = require('./Game.js');
-const game = new Game({height: 16, width: 16, mines: 40});
+const game = new Game({skill: 'intermediate'});
 const getRowCol = (target) => {
     let data = target.dataset;
 
@@ -52,18 +51,34 @@ export default {
 
     methods: {
         classes: (cell) => {
-            if (cell.flagged) return 'cell flagged';
-            if (!cell.visible) {
-                return 'cell not-visible';
-            } else {
-                return 'cell visible';
+            let classes = 'cell unselectable';
+
+            if (cell.flagged) {
+                classes += ' flagged';
             }
+            if (!cell.visible) {
+                classes += ' not-visible';
+            } else {
+                if (cell.mine) {
+                    classes += ' mine';
+                }
+                classes += ' visible';
+            }
+
+            return classes;
         },
         rowWidth: (boardWidth) => {
             return boardWidth * 27;
         },
+        getTime: (ms) => {
+            let time = game.timer.getTime();
+            return `${time.hours}:${time.minutes}:${time.seconds}:${time.ms}`;
+        },
+        isEmptyOrMine: (cell) => {
+            return cell.nearCount === 0 || cell.mine;
+        },
         showCell: (cell) => {
-            return cell.mine === false && cell.nearCount != 0;
+            return cell.nearCount !== 0 && !cell.mine;
         },
         clickCell: function (e) {
             e.preventDefault();
@@ -89,11 +104,17 @@ export default {
 </script>
 
 <style lang="sass">
-
+.minesweeper {
+    font-family: 'Dosis', sans-serif;
+}
 .row {
     height: 27px;
 }
-
+.cell-outer {
+    height: 25px;
+    width: 25px;
+    display: inline-block;
+}
 .cell {
     height: 25px;
     width: 25px;
@@ -119,6 +140,9 @@ export default {
         background: -webkit-linear-gradient(45deg, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%);
         background: linear-gradient(45deg, rgba(255,255,255,1) 0%,rgba(243,243,243,1) 50%,rgba(237,237,237,1) 51%,rgba(255,255,255,1) 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=1 );
+        &.mine {
+            background: url('mine.svg');
+        }
     }
     &.not-visible {
         background: #fceabb;
@@ -149,10 +173,6 @@ export default {
         transition: all .3s ease-in-out;
         transform: rotate3d(45,45,0,-360deg);
     }
-}
-
-.cell-container {
-    display: inline-block;
 }
 
 .unselectable {
