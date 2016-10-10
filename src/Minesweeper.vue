@@ -35,7 +35,7 @@
 
 <script>
 const Game = require('./Game.js');
-const game = new Game();
+const game = new Game({height: 16, width: 16, mines: 40});
 const getRowCol = (target) => {
     let data = target.dataset;
 
