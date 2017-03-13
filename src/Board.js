@@ -6,8 +6,8 @@ const opts = {
 };
 
 function _iterateMatrix(rows, columns, cb) {
-    for (var row = 0; row < rows; row++) {
-        for (var col = 0; col < columns; col++) {
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < columns; col++) {
             cb(row, col);
         }
     }
@@ -66,8 +66,8 @@ class Board {
     }
 
     eachCellAround(row, col, cb) {
-        for (var rowIndex = row - 1; rowIndex < row + 2; rowIndex++) {
-            for (var colIndex = col - 1; colIndex < col + 2; colIndex++) {
+        for (let rowIndex = row - 1; rowIndex < row + 2; rowIndex++) {
+            for (let colIndex = col - 1; colIndex < col + 2; colIndex++) {
                 if (this.inBounds(rowIndex, colIndex) &&
                     !(colIndex === col && rowIndex === row)) {
 
